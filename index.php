@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Fórum</title>
+	<title>SisFor</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="HostSpace template project">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
 	<link rel="stylesheet" type="text/css" href="styles/bootstrap-4.1.2/bootstrap.min.css">
 	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -25,7 +26,7 @@
 				<div class="row">
 					<div class="col">
 						<div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
-							<div class="logo"><a href="#">Fó<span>rum</span></a></div>
+							<div class="logo"><a href="#">Sis<span>For</span></a></div>
 						<!--<nav class="main_nav ml-auto mr-auto">
 							<ul class="d-flex flex-row align-items-center justify-content-start">
 								<li><a href="index.html">Home</a></li>
