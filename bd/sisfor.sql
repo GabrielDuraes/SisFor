@@ -11,11 +11,29 @@
  Target Server Version : 100137
  File Encoding         : 65001
 
- Date: 22/01/2019 17:31:47
+ Date: 23/01/2019 17:33:00
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for comentarios
+-- ----------------------------
+DROP TABLE IF EXISTS `comentarios`;
+CREATE TABLE `comentarios`  (
+  `id_comentario` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_forum` int(11) NOT NULL,
+  `fk_usuario` int(11) NOT NULL,
+  `comentario` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `created_at` datetime(0) NOT NULL,
+  PRIMARY KEY (`id_comentario`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of comentarios
+-- ----------------------------
+INSERT INTO `comentarios` VALUES (1, 11, 1, 'dflçasjfçasl', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for foruns
@@ -25,14 +43,18 @@ CREATE TABLE `foruns`  (
   `id_forum` int(11) NOT NULL AUTO_INCREMENT,
   `titulo_forum` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `descricao` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `fk_usuário` int(11) NOT NULL,
+  `fk_usuario` int(11) NOT NULL,
+  `created_at` datetime(0) NOT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_forum`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of foruns
 -- ----------------------------
-INSERT INTO `foruns` VALUES (1, 'Teste', 'Teste', 1);
+INSERT INTO `foruns` VALUES (11, '123', '123', 1, '2019-01-23 17:09:46', NULL);
+INSERT INTO `foruns` VALUES (12, '123', '12', 1, '2019-01-23 17:13:00', NULL);
+INSERT INTO `foruns` VALUES (13, '123', '132', 1, '2019-01-23 17:13:04', NULL);
 
 -- ----------------------------
 -- Table structure for usuario
