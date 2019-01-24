@@ -133,15 +133,41 @@
 			return $realData; 
 		}
 		
+		public function Read_Fk_paginacao($forum, $inicio, $registros) {
+			$sql = "
+				SELECT *
+				FROM
+					comentarios AS t1
+				WHERE t1.fk_forum = '$forum'
+
+				LIMIT $inicio, $registros;
+			";
+			
+			
+			$DB = new DB();
+			$DB->open();
+			$Data = $DB->fetchData($sql);
+			$realData;
+			if($Data ==NULL){
+				$realData = $Data;
+			}
+			else{
+				
+				foreach($Data as $itemData){
+					if(is_bool($itemData)) continue;
+					else{
+						$realData[] = $itemData;	
+					}
+				}
+			}
+			$DB->close();
+			return $realData; 
+		}
 		
 		//Funcao que retorna um vetor com todos as instancias da classe no BD com paginacao
 		public function ReadAll_Paginacao($inicio, $registros) {
 			$sql = "
-				SELECT
-					 t1.id_comentario,
-					 t1.fk_forum,
-					 t1.fk_usuario,
-					 t1.comentario
+				SELECT *
 				FROM
 					comentarios AS t1
 					

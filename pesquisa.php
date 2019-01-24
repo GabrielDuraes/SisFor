@@ -47,7 +47,7 @@ session_start();
 										<div class="register log_reg_text" data-toggle="modal" data-target="#modal-registro"><a href="#">Registro</a></div>
 									<?php }else { ?>
 										<div class="login log_reg_text"><a href="criar.php">Meus Fóruns</a></div>
-										<div class="login log_reg_text"><a href="editar.php"><?php echo $_SESSION['nome']; ?></a></div>
+										<div class="login log_reg_text"><a href="editar.php"><?php echo $_SESSION['nome'] ?></a></div>
 										<div class="register log_reg_text getout"><a href="#">Sair</a></div>
 									<?php }?>
 								</div>
@@ -94,7 +94,7 @@ session_start();
 				<div class="row">
 					<div class="col">
 						<div class="home_content">
-							<div class="home_title text-center">Pesquise Sua Dúvida</div>
+							<div class="home_title text-center">Resultado da Pesquisa</div>
 							<div class="breadcrumbs">
 								<ul class="d-flex flex-row align-items-center justify-content-start">
 									<!--<li><a href="index.html">Home</a></li>
@@ -142,7 +142,7 @@ session_start();
 
 		$x = new Foruns();
 		$allforuns = 0;
-		$x = $x->ReadAll();
+		$x = $x->Read_pesq($_GET['pesq']);
 		foreach($x as $xx){
 			$allforuns += 1;
 		}
@@ -155,7 +155,11 @@ session_start();
 		}
 
 		$foruns = new Foruns();
-		$foruns = $foruns->ReadAll_paginacao($item, $item_por_pag);
+		$foruns = $foruns->ReadAll_paginacao_pesq($_GET['pesq'], $item, $item_por_pag);
+
+		if(empty($foruns)){
+			echo "<h4 class='text-center'>Nenhum fórum encontrado!</h4>";
+		}else{
 		?>
 
 		<!-- Services -->
@@ -198,9 +202,9 @@ session_start();
 									for($i = $inicio; $i <= $fim; $i++){
 
 										if($i == $pagina){ ?>
-											<li style="background: #5c18af; padding: 0.1em 0.3em; border-radius: 5px; font-family: arial;"><a class="active" style="color: #fff;" href="index.php?pagina=<?php echo $i; ?>"><?php echo $i+1; ?></a></li>
+											<li style="background: #5c18af; padding: 0.1em 0.3em; border-radius: 5px; font-family: arial;"><a class="active" style="color: #fff;" href="pesquisa.php?pagina=<?php echo $i; ?>&pesq=<?php echo $_GET['pesq']; ?>"><?php echo $i+1; ?></a></li>
 										<?php }else { ?>
-											<li style="padding: 0.1em 0.3em; border-radius: 5px; font-family: arial;"><a href="index.php?pagina=<?php echo $i; ?>"><?php echo $i+1; ?></a></li>
+											<li style="padding: 0.1em 0.3em; border-radius: 5px; font-family: arial;"><a href="pesquisa.php?pagina=<?php echo $i; ?>&pesq=<?php echo $_GET['pesq']; ?>"><?php echo $i+1; ?></a></li>
 											<?php 
 										}
 									} if($pagina < $num_paginas-$lim_links-1){echo "<li>. . .</li>";}
@@ -212,6 +216,8 @@ session_start();
 				</div>
 			</div>
 		</div>
+
+		<?php } ?>
 
 		<!-- Footer -->
 		<footer class="footer magic_fade_in">
@@ -416,11 +422,11 @@ session_start();
 				var periodo_registro = $('#periodo_registro').val();
 				var senha_registro = $('#senha_registro').val();
 
-				if(nome_registro == "" || genero_registro == "" || data_nasc_registro == "" || matricula_registro == "" || email_registro == "" || curso_registro == "" || periodo_registro == "" || senha_registro == ""){
+				if(nome_registro == "" || genero_registro == "" || data_nasc_registro == "" || matricula_login == "" || email_registro == "" || curso_registro == "" || periodo_registro == "" || senha_registro == ""){
 					alert('Preencha todos os campos que possuem *');
-				}else if(senha_registro.length < 6){
+				} else if(senha_registro.length < 6){
 					alert('Cadastre uma senha com mais de 6 digitos!');
-				} else {
+				}else {
 					$.ajax({
 						url: 'engine/controllers/usuario.php',
 						data : {

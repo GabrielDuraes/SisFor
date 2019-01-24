@@ -146,7 +146,13 @@
 				UPDATE usuario SET
 
 					nome = '$this->nome',
-					genero = '$this->genero'
+					genero = '$this->genero',
+					data_nasc = '$this->data_nasc',
+					matricula = '$this->matricula',
+					email = '$this->email',
+					curso = '$this->curso',
+					periodo = '$this->periodo',
+					updated_at = now()
 
 				WHERE id_usuario = '$this->id_usuario'
 				";

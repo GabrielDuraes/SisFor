@@ -135,6 +135,35 @@
 			$DB->close();
 			return $realData; 
 		}
+
+		public function Read_pesq($pesq) {
+			$sql = "
+				SELECT *
+				FROM
+					foruns AS t1
+				WHERE t1.titulo_forum LIKE '%$pesq%'
+			";
+			
+			
+			$DB = new DB();
+			$DB->open();
+			$Data = $DB->fetchData($sql);
+			$realData;
+			if($Data ==NULL){
+				$realData = $Data;
+			}
+			else{
+				
+				foreach($Data as $itemData){
+					if(is_bool($itemData)) continue;
+					else{
+						$realData[] = $itemData;	
+					}
+				}
+			}
+			$DB->close();
+			return $realData; 
+		}
 		
 		//Funcao que retorna um vetor com todos as instancias da classe no BD com paginacao
 		public function Read_FK_paginacao($id, $inicio, $registros) {
@@ -163,6 +192,25 @@
 				FROM
 					foruns AS t1
 					
+				LIMIT $inicio, $registros;
+			";
+			
+			
+			$DB = new DB();
+			$DB->open();
+			$Data = $DB->fetchData($sql);
+			
+			$DB->close();
+			return $Data; 
+		}
+
+		//Funcao que retorna um vetor com todos as instancias da classe no BD com paginacao
+		public function ReadAll_paginacao_pesq($pesq, $inicio, $registros) {
+			$sql = "
+				SELECT *
+				FROM
+					foruns AS t1
+				WHERE t1.titulo_forum LIKE '%$pesq%'
 				LIMIT $inicio, $registros;
 			";
 			

@@ -100,7 +100,7 @@ if(empty($_SESSION)){
 				<div class="row">
 					<div class="col">
 						<div class="home_content">
-							<div class="home_title text-center">Meus Fóruns</div>
+							<div class="home_title text-center">Dados do Usuário</div>
 							<div class="breadcrumbs">
 								<ul class="d-flex flex-row align-items-center justify-content-start">
 									<!--<li><a href="index.html">Home</a></li>
@@ -116,24 +116,8 @@ if(empty($_SESSION)){
 
 		<?php require_once "engine/config.php"; 
 
-		$item_por_pag = 10;
-
-		$x = new Foruns();
-		$meusforuns = 0;
-		$x = $x->Read_FK($_SESSION['id_usuario']);
-		foreach($x as $xx){
-			$meusforuns += 1;
-		}
-		$pagina = intval($_GET['pagina']);
-		$num_paginas = ceil($meusforuns/$item_por_pag);
-
-		$item = 0;
-		for($a = 0; $a<$pagina; $a++){
-			$item = $item+$item_por_pag;
-		}
-
-		$foruns = new Foruns();
-		$foruns = $foruns->Read_FK_paginacao($_SESSION['id_usuario'], $item, $item_por_pag);
+		$usuario = new Usuario();
+		$usuario = $usuario->Read($_SESSION['id_usuario']);
 		?>
 
 		<!-- News -->
@@ -142,57 +126,61 @@ if(empty($_SESSION)){
 				<div class="row">
 
 					<div class="col-lg-12">
-						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_novo_forum">Novo</button>
-						<br><br>
-						<table class="table">
-							<thead class="thead-light">
-								<tr style="font-size: 16px;">
-									<th style="width: 90%">Título</th>
-									<th class="text-center">Excluir</th>
-								</tr>
-							</thead>
-							<tbody style="color: #222; font-weight: 600; font-size: 15px;">
-								<?php 
-								foreach($foruns as $foruns) {
-									?>
-									<tr>
-										<td><a href="forum.php?id=<?php echo $foruns['id_forum']; ?>" style="color: #5c18af;"><?php echo $foruns['titulo_forum']; ?></a></td>
-										<td class="text-center delete" id="<?php echo $foruns['id_forum']; ?>">X</td>
-									</tr>
-									<?php 
-								}
-								?>
-							</tbody>
-						</table>
-
 						<br>
-						<!-- Page Nav -->
-						<div class="page_nav">
-							<p>Páginas</p>
-							<ul class="d-flex flex-row align-items-center justify-content-start">
-								<?php
-								$lim_links = 5;
-								$inicio = ((($pagina - $lim_links) >= 0) ? $pagina - $lim_links : 0);
-								$fim = ((($pagina+$lim_links) < $num_paginas) ? $pagina+$lim_links : $num_paginas-1);
+						<h3 class="text-center">Editar Dados</h3>
+						<br><br>
+					</div>
 
-								if($pagina > $lim_links){echo "<li>. . .</li>";}
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_senha">Alterar Senha</button>
+						<br><br>
+					</div>
 
-								if($num_paginas > 0 && $pagina <= $num_paginas){
-									for($i = $inicio; $i <= $fim; $i++){
+					<div class="col-lg-12">
+						<form class="contact_form">
+							<div class="row">
+								<div class="col-md-12">
+									<input type="text" class="contact_input" id="nome_registro" placeholder="nome" value="<?php echo $usuario['nome']; ?>" required="required">
+								</div>
 
-										if($i == $pagina){ ?>
-											<li style="background: #5c18af; padding: 0.1em 0.3em; border-radius: 5px; font-family: arial;"><a class="active" style="color: #fff;" href="criar.php?pagina=<?php echo $i; ?>"><?php echo $i+1; ?></a></li>
-										<?php }else { ?>
-											<li style="padding: 0.1em 0.3em; border-radius: 5px; font-family: arial;"><a href="criar.php?pagina=<?php echo $i; ?>"><?php echo $i+1; ?></a></li>
-											<?php 
-										}
-									} if($pagina < $num_paginas-$lim_links-1){echo "<li>. . .</li>";}
-								}
-								?>
-							</ul>
-						</div>
+								<div class="col-md-4 col-sd-12">
+									<select class="contact_input" id="genero_registro">
+										<option selected>Gênero</option>
+										<option value="0" <?php if($usuario['genero'] == 0){echo 'selected';} ?>>Masculino</option>
+										<option value="1" <?php if($usuario['genero'] == 1){echo 'selected';} ?>>Feminino</option>
+										<option value="2" <?php if($usuario['genero'] == 2){echo 'selected';} ?>>Outro</option>
+									</select>
+								</div>
+
+								<div class="col-md-4 col-sd-12">
+									<input type="text" class="contact_input" id="data_nasc_registro" placeholder="Data de Nascimento" value="<?php echo $usuario['data_nasc']; ?>" required="required">
+								</div>
+
+								<div class="col-md-4 col-sd-12">
+									<input type="text" class="contact_input" id="matricula_registro" placeholder="Matrícula" value="<?php echo $usuario['matricula']; ?>" required="required">
+								</div>
+
+								<div class="col-md-12">
+									<input type="text" class="contact_input" id="email_registro" placeholder="Email" value="<?php echo $usuario['email']; ?>" required="required">
+								</div>
+
+								<div class="col-md-8 col-sd-12">
+									<input type="text" class="contact_input" id="curso_registro" placeholder="Curso" value="<?php echo $usuario['curso']; ?>" required="required">
+								</div>
+
+								<div class="col-md-4 col-sd-12">
+									<input type="text" class="contact_input" id="periodo_registro" placeholder="Período" value="<?php echo $usuario['periodo']; ?>" required="required">
+								</div>
+
+								<div class="col-md-12">
+									<p class="text-center"><button type="button" class="btn btn-secondary" id="atualizar">Atualizar</button></p>
+								</div>
+
+							</div>
+						</form>
 
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -216,12 +204,12 @@ if(empty($_SESSION)){
 		</footer>
 	</div>
 
-	<!-- Modal login-->
-	<div class="modal fade bd-example-modal-lg" id="modal_novo_forum" tabindex="-1" role="dialog" aria-labelledby="modal_novo_forum" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
+	<!-- Modal senha-->
+	<div class="modal fade" id="modal_senha" tabindex="-1" role="dialog" aria-labelledby="modal_senha" aria-hidden="true">
+		<div class="modal-dialog " role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Login</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Alterar Senha</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -232,11 +220,11 @@ if(empty($_SESSION)){
 						<form class="contact_form">
 							<div class="row">
 								<div class="col-md-12">
-									<input type="text" class="contact_input" id="titulo_forum" placeholder="Titulo *" required="required" maxlength="200">
+									<input type="password" class="contact_input" id="senha_velha" placeholder="Senha antiga" required="required" maxlength="20">
 								</div>
+
 								<div class="col-md-12">
-									<label for="comment" style="color: #222; font-size: 18px;">Descrição *</label>
-									<textarea class="form-control" rows="5" style="resize: none; color: black; background: #fff; border: 2px solid #8e00c5;font-size: 1.2em;margin-bottom: 0.5em;" id="descricao"></textarea>
+									<input type="password" class="contact_input" id="senha_atual" placeholder="Senha nova" required="required" maxlength="20">
 								</div>
 							</div>
 						</form>
@@ -245,7 +233,7 @@ if(empty($_SESSION)){
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-					<button type="button" id="criar" class="btn btn-primary1">Criar</button>
+					<button type="button" id="atualizar_senha" class="btn btn-primary1">Atualizar</button>
 				</div>
 			</div>
 		</div>
@@ -268,61 +256,57 @@ if(empty($_SESSION)){
 	<script>
 		$(document).ready(function(e) {
 
-			
-			$('#criar').click(function(e) {
+			VMasker(document.querySelector("#data_nasc_registro")).maskPattern("99/99/9999");
+
+			$('#atualizar_senha').click(function(e) {
 				e.preventDefault();
 
-				var titulo_forum = $('#titulo_forum').val();
-				var descricao = $('#descricao').val();
-				var fk_usuario = "<?php echo $_SESSION['id_usuario']; ?>";
+				var senha_velha = $('#senha_velha').val();
+				var senha_atual = $('#senha_atual').val();
 
+				if(senha_velha == "" || senha_atual == ""){
+					alert('Preencha todos os campos!');
+				} else if(senha_atual.length < 6){
+					alert('Cadastre uma senha com mais de 6 digitos!');
+				}else{
 
-				if(titulo_forum == "" || descricao == ""){
-					alert('Preencha todos os campos que possuem *');
-				} else {
-					$.ajax({
-						url: 'engine/controllers/foruns.php',
-						data : {
-							titulo_forum: titulo_forum,
-							descricao : descricao,
-							fk_usuario : fk_usuario,
-
-							action: 'create'
-						},
-						success: function(data){
-							if(data === 'true'){
-								alert("Cadastro Realizado com Sucesso!");
-								location.reload();
-							}else{
-								alert('Error!');
-							}
-						},
-						async: false,
-						type : 'POST'
-					});
 				}
+
 			});
 
-			$('.delete').click(function(e) {
+			$('#atualizar').click(function(e) {
 				e.preventDefault();
 
-				var id_forum = $(this).attr('id');
-				
-				var r = confirm("Deseja Deletar este fórum?");
-				if (r == true) {
-					$.ajax({
-						url: 'engine/controllers/foruns.php',
-						data : {
-							id_forum: id_forum,
+				var id_usuario = "<?php echo $_SESSION['id_usuario']; ?>";
+				var nome_registro = $('#nome_registro').val();
+				var genero_registro = $('#genero_registro').val();
+				var data_nasc_registro = $('#data_nasc_registro').val();
+				var matricula_registro = $('#matricula_registro').val();
+				var email_registro = $('#email_registro').val();
+				var curso_registro = $('#curso_registro').val();
+				var periodo_registro = $('#periodo_registro').val();
 
-							action: 'delete'
+				if(nome_registro == "" || genero_registro == "" || data_nasc_registro == "" || matricula_registro == "" || email_registro == "" || curso_registro == "" || periodo_registro == ""){
+					alert('Preencha todos os campos!');
+				} else {
+					$.ajax({
+						url: 'engine/controllers/usuario.php',
+						data : {
+							id_usuario : id_usuario,
+							nome: nome_registro,
+							genero : genero_registro,
+							data_nasc: data_nasc_registro,
+							matricula : matricula_registro,
+							email: email_registro,
+							curso : curso_registro,
+							periodo: periodo_registro,
+
+							action: 'update'
 						},
 						success: function(data){
 							if(data === 'true'){
-								alert("Fórum Deletado!");
+								alert("Dados atualizados com Sucesso!");
 								location.reload();
-							}else{
-								alert('Error!');
 							}
 						},
 						async: false,
