@@ -134,6 +134,8 @@ if(empty($_SESSION)){
 
 		$foruns = new Foruns();
 		$foruns = $foruns->Read_FK_paginacao($_SESSION['id_usuario'], $item, $item_por_pag);
+
+
 		?>
 
 		<!-- News -->
@@ -144,6 +146,12 @@ if(empty($_SESSION)){
 					<div class="col-lg-12">
 						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_novo_forum">Novo</button>
 						<br><br>
+
+						<?php 
+							if(empty($foruns)) {
+								echo '<h4 class="text-center">Ainda não existem Fóruns</h4>';
+							}else{
+						?>
 						<table class="table">
 							<thead class="thead-light">
 								<tr style="font-size: 16px;">
@@ -164,7 +172,7 @@ if(empty($_SESSION)){
 								?>
 							</tbody>
 						</table>
-
+						
 						<br>
 						<!-- Page Nav -->
 						<div class="page_nav">
@@ -191,7 +199,7 @@ if(empty($_SESSION)){
 								?>
 							</ul>
 						</div>
-
+						<?php } ?>
 					</div>
 				</div>
 			</div>

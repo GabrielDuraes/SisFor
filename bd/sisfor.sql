@@ -11,7 +11,7 @@
  Target Server Version : 100137
  File Encoding         : 65001
 
- Date: 23/01/2019 17:33:00
+ Date: 24/01/2019 16:27:55
 */
 
 SET NAMES utf8mb4;
@@ -27,13 +27,12 @@ CREATE TABLE `comentarios`  (
   `fk_usuario` int(11) NOT NULL,
   `comentario` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `created_at` datetime(0) NOT NULL,
-  PRIMARY KEY (`id_comentario`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of comentarios
--- ----------------------------
-INSERT INTO `comentarios` VALUES (1, 11, 1, 'dflçasjfçasl', '0000-00-00 00:00:00');
+  PRIMARY KEY (`id_comentario`) USING BTREE,
+  INDEX `fk_forum`(`fk_forum`) USING BTREE,
+  INDEX `fk_usuario1`(`fk_usuario`) USING BTREE,
+  CONSTRAINT `fk_forum` FOREIGN KEY (`fk_forum`) REFERENCES `foruns` (`id_forum`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `fk_usuario1` FOREIGN KEY (`fk_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for foruns
@@ -46,15 +45,10 @@ CREATE TABLE `foruns`  (
   `fk_usuario` int(11) NOT NULL,
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_forum`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of foruns
--- ----------------------------
-INSERT INTO `foruns` VALUES (11, '123', '123', 1, '2019-01-23 17:09:46', NULL);
-INSERT INTO `foruns` VALUES (12, '123', '12', 1, '2019-01-23 17:13:00', NULL);
-INSERT INTO `foruns` VALUES (13, '123', '132', 1, '2019-01-23 17:13:04', NULL);
+  PRIMARY KEY (`id_forum`) USING BTREE,
+  INDEX `fk_usuario`(`fk_usuario`) USING BTREE,
+  CONSTRAINT `fk_usuario` FOREIGN KEY (`fk_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for usuario
@@ -73,11 +67,11 @@ CREATE TABLE `usuario`  (
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id_usuario`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 'Gabriel Durães', 0, '0000-00-00', '20141016034', 'gduraes10@gmail.com', 'Sistemas de Informação', 10, '$2y$10$/PWnyAO52WMFM1LWLkyUTOjzmLgHg/qB2IWOlcq2Sj.knKnlXHQhG', '2019-01-22 00:00:00', NULL);
+INSERT INTO `usuario` VALUES (5, 'Gabriel Durães', 0, '11/03/1996', '20141016034', 'gduraes10@gmail.com', 'Sistemas de Informação', 10, '$2y$10$nYy4U56WAPdkKGbWkNxhjeGJBMqOGZXuQOymBEk9xLDHVtSMqwzhy', '2019-01-24 16:26:29', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

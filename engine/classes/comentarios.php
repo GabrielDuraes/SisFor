@@ -34,14 +34,16 @@
 				 			id_comentario,
 				 			fk_forum,
 				 			fk_usuario,
-				 			comentario
+				 			comentario,
+				 			created_at
 						  )  
 				VALUES 
 					(
 				 			'$this->id_comentario',
 				 			'$this->fk_forum',
 				 			'$this->fk_usuario',
-				 			'$this->comentario'
+				 			'$this->comentario',
+				 			now()
 					);
 			";
 			

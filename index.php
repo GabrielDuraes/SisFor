@@ -156,6 +156,10 @@ session_start();
 
 		$foruns = new Foruns();
 		$foruns = $foruns->ReadAll_paginacao($item, $item_por_pag);
+		
+		if(empty($foruns)) {
+			echo '<h4 class="text-center">Ainda não existem Fóruns</h4>';
+		}else{
 		?>
 
 		<!-- Services -->
@@ -213,6 +217,7 @@ session_start();
 			</div>
 		</div>
 
+		<?php } ?>
 		<!-- Footer -->
 		<footer class="footer magic_fade_in">
 			<div class="container">
