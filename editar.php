@@ -261,6 +261,7 @@ if(empty($_SESSION)){
 			$('#atualizar_senha').click(function(e) {
 				e.preventDefault();
 
+				var id_usuario = "<?php echo $_SESSION['id_usuario']; ?>";
 				var senha_velha = $('#senha_velha').val();
 				var senha_atual = $('#senha_atual').val();
 
@@ -269,7 +270,40 @@ if(empty($_SESSION)){
 				} else if(senha_atual.length < 6){
 					alert('Cadastre uma senha com mais de 6 digitos!');
 				}else{
+					$.ajax({
+						url: 'engine/controllers/usuario.php',
+						data: {
+							id_usuario : id_usuario,
+							senha : senha_velha,
 
+							action: 'cripto'
+						},
+						success: function(data) {
+							if (data === 'true') {
+								$.ajax({
+									url: 'engine/controllers/usuario.php',
+									data: {
+										id_usuario: id_usuario,
+										senha : senha_atual,
+
+										action: 'updateSenha'
+									},
+									success: function(data) {
+										if (data === 'true') {
+											alert('Senha atualizada com sucesso!');
+											location.reload();
+										}
+									},
+									async: false,
+									type: 'POST'
+								});
+							} else {
+								alert('Senha antiga incorreta. Tente novamente');
+							}
+						},
+						async: false,
+						type: 'POST'
+					});
 				}
 
 			});

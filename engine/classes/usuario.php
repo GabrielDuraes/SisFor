@@ -164,13 +164,14 @@
 			return $result;
 		}
 
-		public function UpdateSenha($email){
+		public function UpdateSenha(){
 			$sql = "
 				UPDATE usuario SET
 
-					senha = '$this->senha'
+					senha = '$this->senha',
+					updated_at = now()
 
-				WHERE email = '$email'
+				WHERE id_usuario = '$this->id_usuario'
 				";
 
 			$DB = new DB();

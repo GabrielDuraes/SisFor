@@ -62,27 +62,12 @@ switch($action){
 
 
 	case 'updateSenha':
-	$res = $Item->UpdateSenha($email);
-
+	$res = $Item->UpdateSenha();
 	if($res === NULL){
 		$res= 'true';
 	}else{
 		$res = 'false';
 	}
-	echo $res;
-	break;
-
-	case 'verificaEmail':
-	$Usuario = new Usuario();
-	$Usuario = $Usuario->ReadAll();
-
-	$Usuario_dasa = new Usuario_dasa();
-	$Usuario_dasa = $Usuario_dasa->ReadAll();
-
-	foreach ($Usuario as $user) {if ($user['email'] == $email) {$res = 'true'; break; } }
-
-	foreach ($Usuario_dasa as $dasa) {if ($dasa['email'] == $email) {$res = 'true'; break; } }
-
 	echo $res;
 	break;
 
@@ -99,19 +84,5 @@ switch($action){
 		echo $res;
 
 	break;
-
-	case 'buscar_cpf':
-			$Usuario = new Usuario();
-			$Usuario = $Usuario->Read_cpf($cpf);
-			if (!$Usuario) {
-				$res['res'] = 'false';
-			} else {
-				$res['res'] = 'true';
-				$res['id_usuario'] = $Usuario['id_usuario'];
-				$res['nome'] = $Usuario['nome'];
-				$res['tipo_usuario'] = $Usuario['tipo_usuario'];
-			}
-			echo json_encode($res);
-		break;
 }
 ?>
