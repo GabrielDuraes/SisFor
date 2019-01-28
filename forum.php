@@ -543,7 +543,7 @@ session_start();
 					success: function(data) {
 						console.log(data);
 						if(data === 'kickme'){
-							document.location.href = 'forum.php';
+							document.location.href = 'forum.php?id=<?php echo $_GET['id'] ?>';
 						}
 
 						else{
